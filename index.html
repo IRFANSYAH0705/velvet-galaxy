@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velvet Galaxy ♡</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: #07020d;
+    color: white;
+    font-family: Georgia, serif;
+    overflow-x: hidden;
+}
+
+#stars {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px 18px;
+}
+
+.label {
+    color: #ff9bd3;
+    font: 11px Arial, sans-serif;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #ffd5ed;
+    font-size: clamp(35px, 7vw, 60px);
+    text-shadow: 0 0 25px #ff168d;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    color: #e8c8dc;
+    font: 14px/1.8 Arial, sans-serif;
+}
+
+.galaxy {
+    width: min(85vw, 350px);
+    aspect-ratio: 1;
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin: 25px 0;
+}
+
+.orbit {
+    position: absolute;
+    width: 100%;
+    height: 38%;
+    border: 1px solid #ff5ca766;
+    border-radius: 50%;
+    box-shadow: 0 0 18px #ff168d55;
+    animation: rotate 7s linear infinite;
+}
+
+.orbit:nth-child(2) {
+    animation-duration: 10s;
+    transform: rotate(60deg);
+}
+
+.orbit:nth-child(3) {
+    animation-duration: 13s;
+    transform: rotate(-60deg);
+}
+
+.heart {
+    font-size: clamp(85px, 20vw, 125px);
+    color: #ff4ba7;
+    text-shadow: 0 0 20px #ff168d, 0 0 60px #ff168d;
+    animation: beat 1.5s ease-in-out infinite;
+    cursor: pointer;
+    user-select: none;
+}
+
+@keyframes rotate {
+    from { rotate: 0deg; }
+    to { rotate: 360deg; }
+}
+
+@keyframes beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.13); }
+}
+
+button {
+    padding: 14px 23px;
+    border: 1px solid #ff9bd3;
+    border-radius: 30px;
+    background: linear-gradient(120deg, #ff278e, #a52bce);
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 0 20px #ff168d44;
+    transition: .3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px #ff168d88;
+}
+
+.card {
+    display: none;
+    width: min(100%, 430px);
+    padding: 28px 22px;
+    margin-top: 25px;
+    border: 1px solid #ff86c855;
+    border-radius: 20px;
+    background: #210b2be8;
+    box-shadow: 0 0 35px #ff168d22;
+    animation: appear .7s ease;
+}
+
+.card.show {
+    display: block;
+}
+
+.card h2 {
+    color: #ff9bd3;
+    font-size: 27px;
+    margin-bottom: 18px;
+}
+
+.card p {
+    color: #f3dce9;
+    font: 14px/2 Arial, sans-serif;
+}
+
+.card button {
+    margin-top: 20px;
+}
+
+.footer {
+    margin-top: 25px;
+    color: #a58cae;
+    font: 11px Arial, sans-serif;
+    letter-spacing: 2px;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.floating {
+    position: fixed;
+    bottom: -40px;
+    pointer-events: none;
+    animation: rise 4s linear forwards;
+}
+
+@keyframes rise {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 35px 18px;
+    }
+
+    .label {
+        font-size: 9px;
+        letter-spacing: 3px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .card {
+        padding: 22px 17px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<main>
+    <div class="label">A SECRET UNIVERSE</div>
+
+    <h1>Velvet Galaxy</h1>
+
+    <p class="subtitle">
+        Di antara miliaran bintang,<br>
+        ada seseorang yang begitu istimewa.
+    </p>
+
+    <div class="galaxy">
+        <div class="orbit"></div>
+        <div class="orbit"></div>
+        <div class="orbit"></div>
+        <div class="heart" onclick="openMessage()">♥</div>
+    </div>
+
+    <button onclick="openMessage()">
+        Open Your Little Universe ♡
+    </button>
+
+    <section class="card" id="message">
+        <h2>For You, Gaby ♡</h2>
+
+        <p>
+            Hai, Gaby. ❤️
+            <br><br>
+            Ada hal sederhana yang ingin kusampaikan
+            lewat dunia kecil ini.
+            <br><br>
+            Dari sekian banyak bintang di langit,
+            setiap orang punya cahaya istimewanya sendiri.
+            Dan menurutku, kamu punya cahaya yang indah.
+            <br><br>
+            Semoga kamu selalu menemukan alasan
+            untuk tersenyum, tetap kuat saat lelah,
+            dan dikelilingi banyak hal baik.
+            <br><br>
+            Jangan lupa jaga diri dan bahagia, ya. 💗
+        </p>
+
+        <button onclick="sendLove()">
+            A Little More Love 💗
+        </button>
+
+        <p style="margin-top:20px;color:#ff9bd3">
+            — From Someone ♡
+        </p>
+    </section>
+
+    <div class="footer">
+        MADE WITH LOVE · JUST FOR YOU
+    </div>
+</main>
+
+<script>
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+let stars = [];
+
+function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    stars = [];
+
+    for (let i = 0; i < 150; i++) {
+        stars.push({
+            x: Math.random() * innerWidth,
+            y: Math.random() * innerHeight,
+            size: Math.random() * 1.5 + .3,
+            phase: Math.random() * 6.28
+        });
+    }
+}
+
+function animateStars() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+    stars.forEach(star => {
+        star.phase += .015;
+
+        ctx.globalAlpha = .3 + Math.abs(Math.sin(star.phase)) * .7;
+        ctx.fillStyle = "#ffd8f0";
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#ff4ba7";
+
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+
+    requestAnimationFrame(animateStars);
+}
+
+function openMessage() {
+    const card = document.getElementById("message");
+
+    card.classList.add("show");
+
+    card.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+
+    sendLove();
+}
+
+function sendLove() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const heart = document.createElement("div");
+
+            heart.className = "floating";
+            heart.textContent = ["♥", "♡", "💗", "✨"][
+                Math.floor(Math.random() * 4)
+            ];
+
+            heart.style.left = Math.random() * 95 + "vw";
+            heart.style.color = "#ff70bd";
+            heart.style.fontSize = 15 + Math.random() * 20 + "px";
+            heart.style.animationDuration = 3 + Math.random() * 3 + "s";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 6500);
+        }, i * 100);
+    }
+}
+
+window.addEventListener("resize", resize);
+
+resize();
+animateStars();
+</script>
+
+</body>
+</html>
