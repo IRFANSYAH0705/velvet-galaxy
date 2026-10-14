@@ -219,6 +219,17 @@ button:focus-visible{outline:2px solid #fff;outline-offset:4px}
   .hud-bottom { font-size: 7px; }
 }
 
+
+/* GitHub Pages mobile fit */
+html,body{width:100%;min-height:100%;margin:0}
+#universe{position:fixed;inset:0;width:100%;height:100vh;height:100dvh}
+@media(max-width:650px){
+ html,body{overflow:hidden;overscroll-behavior:none}
+ #universe{width:100vw;height:100dvh}
+ #header,#hud{box-sizing:border-box;max-width:100vw}
+ .galaxy-words{width:100vw;height:100dvh}
+}
+
 </style>
 </head>
 <body>
@@ -517,5 +528,14 @@ $('sound').addEventListener('click',async()=>{
 init();
 })();
 </script>
+
+<script>
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => {
+    document.documentElement.style.setProperty('--visible-height', window.visualViewport.height + 'px');
+  });
+}
+</script>
+
 </body>
-</html>
+</html>v
