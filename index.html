@@ -105,7 +105,7 @@ button:focus-visible{outline:2px solid #fff;outline-offset:4px}
  .note-actions button{flex:1 1 42%;letter-spacing:.07em}
 }
 
-#toast{position:fixed;z-index:5;left:50%;bottom:55px;transform:translateX(-50%);font:9px Arial,sans-serif;letter-spacing:.1em;text-align:center;color:#ffd8ea;opacity:0;pointer-events:none;transition:opacity .25s;width:90%}
+#toast{position:fixed;z-index:5;left:50%;bottom:55px;transform:translateX(-50%);font:9px Arial,sans-serif;letter-spacing:.1em;text-align:center;color:#ffe3f0;opacity:0;pointer-events:none;transition:opacity .25s;width:90%}
 #toast.show{opacity:1}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 @keyframes twinkle{0%,100%{opacity:.45;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
@@ -133,7 +133,7 @@ button:focus-visible{outline:2px solid #fff;outline-offset:4px}
 
 <div id="hud">
   <div class="hud-title">✦ A UNIVERSE MADE ESPECIALLY FOR GABY ✦</div>
-  <div class="actions"><button id="sound">♫ SOUND OFF</button><button id="home">↺ INTRO</button></div>
+  <div class="actions"><button id="sound">♫ MUSIC OFF</button><button id="home">↺ INTRO</button></div>
   <div class="hud-bottom">DRAG TO EXPLORE THE GALAXY · TAP THE HEART FOR A MESSAGE ♡</div>
 </div>
 
@@ -248,9 +248,9 @@ let renderer,scene,camera,galaxy,heart,orbitTexts=[],clock=0,active=false,draggi
 let toastTimer=0;
 function toast(s){$('toast').textContent=s;$('toast').style.opacity=1;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').style.opacity=0,2300)}
 function glowMap(){
- const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d'),g=x.createRadialGradient(32,32,0,32,32,32);
- g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.18,'rgba(255,215,241,.98)');g.addColorStop(.42,'rgba(255,76,173,.48)');g.addColorStop(1,'rgba(255,30,130,0)');
- x.fillStyle=g;x.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);
+ const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d'),g=x.createRadialGradient(64,64,0,64,64,64);
+ g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.16,'rgba(255,220,244,.96)');g.addColorStop(.38,'rgba(255,86,180,.42)');g.addColorStop(1,'rgba(255,30,130,0)');
+ x.fillStyle=g;x.fillRect(0,0,128,128);return new THREE.CanvasTexture(c);
 }
 let glow;
 function cloud(p,c,size,opacity=1){
@@ -268,7 +268,7 @@ function buildGalaxy(){
  for(let i=0;i<n;i++){const r=Math.pow(Math.random(),.72)*15.5,a=Math.floor(Math.random()*4)*Math.PI/2+r*.5+(Math.random()-.5)*(.16+r*.012);p[i*3]=Math.cos(a)*r;p[i*3+1]=(Math.random()-.5)*(.12+r*.035);p[i*3+2]=Math.sin(a)*r;const q=Math.random();c[i*3]=1;c[i*3+1]=.1+q*.48;c[i*3+2]=.4+q*.55}
  galaxy.add(cloud(p,c,isMobile()?.17:.2,.96));
  const rings=new THREE.Group();galaxy.add(rings);
- for(let i=0;i<6;i++){const curve=new THREE.EllipseCurve(0,0,5+i*1.9,1.2+i*.34,0,Math.PI*2,false,0);const geo=new THREE.BufferGeometry().setFromPoints(curve.getPoints(220).map(v=>new THREE.Vector3(v.x,0,v.y)));const line=new THREE.LineLoop(geo,new THREE.LineBasicMaterial({color:i%2?0xff72c1:0xffc1e4,transparent:true,opacity:.13+i*.013}));line.rotation.x=.16;rings.add(line)}
+ for(let i=0;i<6;i++){const curve=new THREE.EllipseCurve(0,0,5+i*1.9,1.2+i*.34,0,Math.PI*2,false,0);const geo=new THREE.BufferGeometry().setFromPoints(curve.getPoints(360).map(v=>new THREE.Vector3(v.x,0,v.y)));const line=new THREE.LineLoop(geo,new THREE.LineBasicMaterial({color:i%2?0xff72c1:0xffc1e4,transparent:true,opacity:.13+i*.013}));line.rotation.x=.16;rings.add(line)}
  const core=new THREE.Sprite(new THREE.SpriteMaterial({map:glow,color:0xff3d9f,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));core.scale.set(9,9,1);galaxy.add(core);
 }
 function buildOrbitDust(){
@@ -293,7 +293,7 @@ function buildHeart(){
  heart.add(cloud(p,c,isMobile()?.14:.17,.98));
  const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:glow,color:0xff3e9f,transparent:true,opacity:.65,blending:THREE.AdditiveBlending,depthWrite:false}));halo.scale.set(8,8,1);halo.position.z=-.7;heart.add(halo);heart.position.set(0,7.2,0);
 }
-function textTexture(text,color){const c=document.createElement('canvas');c.width=1024;c.height=128;const x=c.getContext('2d');x.font='bold 38px Arial';x.textAlign='center';x.textBaseline='middle';x.shadowColor=color;x.shadowBlur=14;x.fillStyle=color;x.fillText(text,512,64);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function textTexture(text,color){const c=document.createElement('canvas');c.width=1536;c.height=192;const x=c.getContext('2d');x.font='bold 48px Arial';x.textAlign='center';x.textBaseline='middle';x.shadowColor=color;x.shadowBlur=18;x.fillStyle=color;x.fillText(text,768,96);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
 function orbit(text,r,a,y,color,speed){
  const g=new THREE.Group();
  const material=new THREE.SpriteMaterial({map:textTexture(text,color),transparent:true,depthWrite:false,depthTest:false});
@@ -331,7 +331,7 @@ function init(){
  if(!window.THREE){toast('Koneksi internet diperlukan untuk memuat animasi 3D.');return}
  scene=new THREE.Scene();scene.background=new THREE.Color('#090510');scene.fog=new THREE.FogExp2('#090510',.007);
  camera=new THREE.PerspectiveCamera(isMobile()?55:48,innerWidth/innerHeight,.1,180);camera.position.set(0,15,40);camera.lookAt(0,1,0);
- renderer=new THREE.WebGLRenderer({canvas,antialias:!isMobile(),alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile()?1.2:1.5));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;
+ renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile()?1.5:2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;
  scene.add(new THREE.AmbientLight(0xffffff,1.15));const light=new THREE.PointLight(0xff238e,7,60);light.position.set(0,5,0);scene.add(light);
  glow=glowMap();buildStars();buildGalaxy();buildOrbitDust();buildHeart();buildText();animate();
 }
@@ -350,15 +350,64 @@ function animate(){
  renderer.render(scene,camera)
 }
 function showNote(i){index=(i+notes.length)%notes.length;const n=notes[index];$('noteTitle').textContent=n.title;$('noteText').replaceChildren(...n.paragraphs.map((text)=>{const p=document.createElement('p');p.textContent=text;return p}));$('noteCount').textContent=String(index+1).padStart(2,'0')+' / '+String(notes.length).padStart(2,'0');layer.classList.add('open')}
-$('enter').addEventListener('click',()=>{active=true;start.classList.add('hide');hud.classList.add('on');header.classList.add('on');toast('Geser untuk menjelajahi galaksi · ketuk hati untuk pesan ♡')});
-$('home').addEventListener('click',()=>{active=false;start.classList.remove('hide');hud.classList.remove('on');header.classList.remove('on');layer.classList.remove('open');camera.position.set(0,15,40);camera.lookAt(0,1,0)});
+$('enter').addEventListener('click',async()=>{
+ active=true;start.classList.add('hide');hud.classList.add('on');header.classList.add('on');
+ // Browser policy allows audio after this user interaction, so begin the music here.
+ if(!sound) await startRomanticMusic();
+ toast('Musik romantis diputar · geser untuk menjelajahi galaksi ♡');
+});
+$('home').addEventListener('click',()=>{active=false;stopRomanticMusic();start.classList.remove('hide');hud.classList.remove('on');header.classList.remove('on');layer.classList.remove('open');camera.position.set(0,15,40);camera.lookAt(0,1,0)});
 $('close').addEventListener('click',()=>layer.classList.remove('open'));$('next').addEventListener('click',()=>showNote(index+1));$('previous').addEventListener('click',()=>showNote(index-1));
 layer.addEventListener('click',e=>{if(e.target===layer)layer.classList.remove('open')});
 canvas.addEventListener('click',()=>{if(active&&!layer.classList.contains('open'))showNote(index)});
 canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});window.addEventListener('pointerup',()=>dragging=false);window.addEventListener('pointercancel',()=>dragging=false);
 window.addEventListener('pointermove',e=>{mouseX=(e.clientX/innerWidth-.5)*2;mouseY=(e.clientY/innerHeight-.5)*2;if(dragging&&active){const dx=e.clientX-lastX,dy=e.clientY-lastY;galaxy.rotation.y+=dx*.003;galaxy.rotation.x=Math.max(-.22,Math.min(.22,galaxy.rotation.x+dy*.0007));lastX=e.clientX;lastY=e.clientY}});
-window.addEventListener('resize',()=>{if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.fov=isMobile()?55:48;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile()?1.2:1.5));renderer.setSize(innerWidth,innerHeight)});
-$('sound').addEventListener('click',async()=>{if(!sound){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();await audioCtx.resume();osc=audioCtx.createOscillator();gain=audioCtx.createGain();osc.type='sine';osc.frequency.value=174.61;gain.gain.value=.012;osc.connect(gain);gain.connect(audioCtx.destination);osc.start();sound=true;$('sound').textContent='♫ SOUND ON'}catch(e){toast('Audio tidak tersedia di browser ini')}}else{if(osc){osc.stop();osc.disconnect();osc=null}sound=false;$('sound').textContent='♫ SOUND OFF'}});
+window.addEventListener('resize',()=>{if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.fov=isMobile()?55:48;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile()?1.5:2));renderer.setSize(innerWidth,innerHeight)});
+let musicTimer=null,musicStep=0,musicNodes=[];
+function playSoftNote(freq,start,duration,volume){
+ const oscNode=audioCtx.createOscillator(),amp=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();
+ oscNode.type='sine';oscNode.frequency.setValueAtTime(freq,start);
+ filter.type='lowpass';filter.frequency.setValueAtTime(1500,start);
+ amp.gain.setValueAtTime(.0001,start);
+ amp.gain.exponentialRampToValueAtTime(volume,start+.04);
+ amp.gain.exponentialRampToValueAtTime(Math.max(.0001,volume*.42),start+duration*.55);
+ amp.gain.exponentialRampToValueAtTime(.0001,start+duration);
+ oscNode.connect(filter);filter.connect(amp);amp.connect(audioCtx.destination);
+ oscNode.start(start);oscNode.stop(start+duration+.04);musicNodes.push(oscNode);
+ oscNode.onended=()=>{musicNodes=musicNodes.filter(n=>n!==oscNode);try{oscNode.disconnect();filter.disconnect();amp.disconnect()}catch(e){}};
+}
+function scheduleRomanticMusic(){
+ if(!sound||!audioCtx)return;
+ const chords=[
+  [261.63,329.63,392.00,523.25],
+  [220.00,261.63,329.63,440.00],
+  [174.61,261.63,349.23,440.00],
+  [196.00,246.94,392.00,493.88]
+ ];
+ const chord=chords[Math.floor(musicStep/4)%chords.length],note=chord[musicStep%4],now=audioCtx.currentTime;
+ playSoftNote(note,now,.95,.014);
+ if(musicStep%4===0)playSoftNote(chord[0]/2,now,1.7,.009);
+ if(musicStep%4===2)playSoftNote(chord[2],now+.08,1.15,.006);
+ musicStep++;musicTimer=setTimeout(scheduleRomanticMusic,620);
+}
+async function startRomanticMusic(){
+ try{
+  audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
+  await audioCtx.resume();
+  if(sound)return;
+  sound=true;musicStep=0;$('sound').textContent='♫ MUSIC ON';
+  scheduleRomanticMusic();
+ }catch(e){sound=false;$('sound').textContent='♫ MUSIC OFF';toast('Browser tidak mengizinkan audio saat ini')}
+}
+function stopRomanticMusic(){
+ sound=false;clearTimeout(musicTimer);musicTimer=null;
+ musicNodes.forEach(n=>{try{n.stop()}catch(e){}});
+ musicNodes=[];$('sound').textContent='♫ MUSIC OFF';
+}
+$('sound').addEventListener('click',async()=>{
+ if(!sound){await startRomanticMusic();if(sound)toast('Musik romantis diputar ♡')}
+ else{stopRomanticMusic();toast('Musik dijeda')}
+});
 init();
 })();
 </script>
