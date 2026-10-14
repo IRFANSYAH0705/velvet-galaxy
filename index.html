@@ -113,6 +113,36 @@ button:focus-visible{outline:2px solid #fff;outline-offset:4px}
 @media(max-width:650px){header{padding:14px 13px}.brand{font-size:8px;letter-spacing:.15em}.live{font-size:8px}.intro{width:min(330px,100%);padding:24px 18px 22px}.moon-art{height:88px}.moon{width:55px;height:55px}.moon:after{width:68px;top:18px}.hud-title{top:72px;font-size:7px;letter-spacing:.14em}.actions{top:42px;right:10px}.actions button{padding:8px 9px}.hud-bottom{font-size:7px;bottom:calc(9px + env(safe-area-inset-bottom))}.note{padding:23px 16px 19px}.note p{font-size:11px}}
 @media(max-height:650px){.intro{padding-top:16px;padding-bottom:16px}.moon-art{height:68px}.moon{width:48px;height:48px}.moon:after{width:57px;height:18px;top:15px}.intro h1{font-size:30px;margin:9px 0}.intro p{margin-bottom:12px}.small-note{margin-top:10px}.animal.cat,.animal.rabbit{bottom:8%}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+
+/* Mobile polish: clearer typography, balanced composition, safe-area spacing */
+#universe{display:block;width:100%;height:100%;image-rendering:auto}
+@media(max-width:650px){
+ html,body{width:100%;height:100%;min-height:100%;overflow:hidden}
+ #header{left:14px;right:14px;top:calc(12px + env(safe-area-inset-top));gap:8px;align-items:center}
+ #header .brand{font-size:10px;letter-spacing:.14em}
+ #header .made{font-size:8px;letter-spacing:.08em}
+ #header button,#sound,#intro{font-size:8px;letter-spacing:.06em;padding:10px 9px;min-height:40px}
+ #header .tagline{font-size:9px;letter-spacing:.04em;line-height:1.5;max-width:47vw}
+ #hud{left:12px;right:12px;bottom:calc(18px + env(safe-area-inset-bottom));font-size:9px;letter-spacing:.07em;line-height:1.7;text-align:center}
+ .galaxy-words{overflow:hidden}
+ .orbit-word{font-size:clamp(8px,2.1vw,10px)!important;letter-spacing:.015em!important;text-shadow:0 0 8px rgba(255,130,205,.55),0 1px 3px #05020a;max-width:43vw;white-space:normal;text-align:center;line-height:1.4}
+ .orbit-track{width:94vw;height:34vh;top:53%;animation-duration:76s}
+ #noteLayer{padding:12px 8px}
+ .letter{width:100%;max-width:520px;padding:22px 18px 18px}
+ .letter-body{font-size:13px;line-height:1.85}
+ .letter h2{font-size:23px}
+ .letter-animals{height:104px}
+ .letter-pet{height:94px}.bunny-pet{height:102px}
+}
+@media(max-width:390px){
+ #header{left:9px;right:9px;top:calc(9px + env(safe-area-inset-top))}
+ #header .brand{font-size:9px}
+ #header .made{font-size:7px}
+ #header button,#sound,#intro{padding:9px 7px;font-size:7px}
+ #hud{left:9px;right:9px;font-size:8px}
+ .orbit-word{max-width:39vw}
+}
+
 </style>
 </head>
 <body>
@@ -331,7 +361,7 @@ function init(){
  if(!window.THREE){toast('Koneksi internet diperlukan untuk memuat animasi 3D.');return}
  scene=new THREE.Scene();scene.background=new THREE.Color('#090510');scene.fog=new THREE.FogExp2('#090510',.007);
  camera=new THREE.PerspectiveCamera(isMobile()?55:48,innerWidth/innerHeight,.1,180);camera.position.set(0,15,40);camera.lookAt(0,1,0);
- renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile()?1.5:2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;
+ renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, isMobile()?1.5:2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;
  scene.add(new THREE.AmbientLight(0xffffff,1.15));const light=new THREE.PointLight(0xff238e,7,60);light.position.set(0,5,0);scene.add(light);
  glow=glowMap();buildStars();buildGalaxy();buildOrbitDust();buildHeart();buildText();animate();
 }
@@ -362,7 +392,7 @@ layer.addEventListener('click',e=>{if(e.target===layer)layer.classList.remove('o
 canvas.addEventListener('click',()=>{if(active&&!layer.classList.contains('open'))showNote(index)});
 canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});window.addEventListener('pointerup',()=>dragging=false);window.addEventListener('pointercancel',()=>dragging=false);
 window.addEventListener('pointermove',e=>{mouseX=(e.clientX/innerWidth-.5)*2;mouseY=(e.clientY/innerHeight-.5)*2;if(dragging&&active){const dx=e.clientX-lastX,dy=e.clientY-lastY;galaxy.rotation.y+=dx*.003;galaxy.rotation.x=Math.max(-.22,Math.min(.22,galaxy.rotation.x+dy*.0007));lastX=e.clientX;lastY=e.clientY}});
-window.addEventListener('resize',()=>{if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.fov=isMobile()?55:48;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile()?1.5:2));renderer.setSize(innerWidth,innerHeight)});
+window.addEventListener('resize',()=>{if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.fov=isMobile()?55:48;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, isMobile()?1.5:2));renderer.setSize(innerWidth,innerHeight)});
 let musicTimer=null,musicStep=0,musicNodes=[];
 function playSoftNote(freq,start,duration,volume){
  const oscNode=audioCtx.createOscillator(),amp=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();
