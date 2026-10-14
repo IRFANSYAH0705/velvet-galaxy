@@ -2,367 +2,365 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velvet Galaxy ♡</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090510">
+<meta name="description" content="A quiet little galaxy, made with love for Gaby.">
+<title>Velvet Galaxy — A Little Universe for Gaby</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root{--pink:#eaa4c8;--pale:#fff0f7;--muted:#cbb9cc;--line:rgba(235,190,218,.18)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#090510;color:#fff4fb;font-family:Georgia,"Times New Roman",serif}
+button{font:inherit}
+#universe{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.ambient{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 43%,transparent 20%,rgba(9,5,16,.12) 60%,rgba(4,2,8,.72) 100%);z-index:1}
+header{position:fixed;z-index:3;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:17px clamp(15px,4vw,44px);pointer-events:none;opacity:0;transition:opacity .8s}
+header.on{opacity:1}
+.brand,.live{font:9px Arial,sans-serif;letter-spacing:.23em;text-transform:uppercase;color:#f8d8e9}
+.brand b{font-weight:normal;color:#ff7dbd}
+.live{letter-spacing:.12em;color:#d9c2d5}.live:before{content:"";display:inline-block;width:5px;height:5px;background:#ff82c2;border-radius:50%;margin:0 8px 1px 0;box-shadow:0 0 10px #ff82c2}
+#start{position:fixed;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:18px;background:radial-gradient(ellipse at 50% 40%,#27102b88,#08050bd9);transition:opacity .8s,visibility .8s}
+#start.hide{opacity:0;visibility:hidden;pointer-events:none}
+.intro{width:min(370px,100%);position:relative;text-align:center;padding:clamp(25px,5vh,40px) 26px 27px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(31,19,37,.94),rgba(13,9,19,.96));box-shadow:0 20px 75px #0007;backdrop-filter:blur(18px)}
+.intro:before{content:"";position:absolute;inset:7px;border:1px solid rgba(255,213,236,.09);pointer-events:none}
+.eyebrow{font:9px Arial,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#dca8c8}
+h1{font-weight:normal;font-size:clamp(31px,7vw,43px);line-height:1.1;letter-spacing:-.035em;margin:15px 0;color:#fff1f8;text-shadow:0 0 16px #ff68b526}
+h1 em{color:#ff9bce;font-weight:normal}
+.moon-art{height:102px;display:flex;align-items:center;justify-content:center;gap:13px}
+.moon{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8fd,#ffc7e5 30%,#e46aaf 65%,#62235e);box-shadow:0 0 24px #ff6cb744;position:relative;animation:float 4s ease-in-out infinite}
+.moon:after{content:"";position:absolute;left:-7px;top:21px;width:78px;height:23px;border:1px solid #ffc4e3a0;border-radius:50%;transform:rotate(-24deg)}
+.spark{font-size:20px;color:#ffd3e9;animation:twinkle 2s ease-in-out infinite}.spark:nth-child(3){animation-delay:.8s}
+.intro p{font:11px/2 Arial,sans-serif;color:var(--muted);max-width:275px;margin:3px auto 20px}
+button{cursor:pointer;border:1px solid #ffb4d7a6;color:white;background:linear-gradient(100deg,#85516f,#b86f98);padding:13px 19px;min-height:44px;font:9px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;border-radius:3px;box-shadow:0 7px 22px #0003;transition:transform .2s,box-shadow .2s}
+button:hover{transform:translateY(-2px);box-shadow:0 0 27px #ff4e9d45}
+button:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.small-note{font:8px Arial,sans-serif;letter-spacing:.18em;color:#a990a7;margin-top:17px;text-transform:uppercase}
+#hud{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .8s}
+#hud.on{opacity:1}
+.hud-title{position:absolute;top:clamp(62px,8vh,82px);left:50%;transform:translateX(-50%);width:92%;text-align:center;font:9px Arial,sans-serif;letter-spacing:.23em;color:#f2d9e8;text-shadow:0 0 10px #ff5ca822;white-space:nowrap}
+.actions{position:absolute;right:14px;top:12px;display:flex;gap:7px;pointer-events:auto}
+.actions button{background:rgba(18,12,24,.76);border-color:#e8c2dc44;padding:10px 12px;min-height:40px;font-size:8px}
+.hud-bottom{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:90%;text-align:center;font:8px/1.7 Arial,sans-serif;letter-spacing:.12em;color:#e8c5dc}
+#noteLayer{position:fixed;inset:0;z-index:8;display:flex;align-items:center;justify-content:center;padding:18px;background:#05020bc9;backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+#noteLayer.open{opacity:1;visibility:visible}
+.note{width:min(390px,100%);padding:26px 22px 21px;text-align:center;border:1px solid var(--line);background:linear-gradient(145deg,#241829fa,#0d0913fc);box-shadow:0 22px 80px #0009}
+.note-icon{font-size:47px;margin:5px 0 12px;filter:drop-shadow(0 0 12px #ff5da8)}
+.note h2{font-size:27px;font-weight:normal;color:#ffd7e9;margin:0 0 13px}
+.note p{font:12px/2 Arial,sans-serif;color:#dfd0df;margin:0 0 18px}
+.count{font:9px Arial,sans-serif;letter-spacing:.25em;color:#ff9fce;margin-bottom:16px}
+.note-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.note-actions .quiet{background:#211029;border-color:#c28cb555}
+.signature{font-style:italic!important;color:#ffb6d9!important;margin:17px 0 0!important}
+
+
+/* Refined motion details */
+.letter{isolation:isolate}
+.letter:after{content:"";position:absolute;top:124px;left:50%;width:220px;height:58px;transform:translateX(-50%) rotate(-13deg);border:1px solid #e7c6dd;border-radius:50%;opacity:.58;pointer-events:none;z-index:0;animation:letterOrbit 14s linear infinite}
+.letter-top,.letter-animals,.letter-rule,.letter h2,.letter-body,.letter-bottom,.note-actions{position:relative;z-index:1}
+.letter-animals{overflow:visible}
+.letter-pet{transform-origin:50% 78%;animation:letterPetFloat 3.8s ease-in-out infinite, letterPetTurn 8s ease-in-out infinite}
+.bunny-pet{animation-delay:-1.8s,-4s}
+.letter-heart{display:inline-block;animation:letterHeartBeat 2.2s ease-in-out infinite, letterHeartSpin 12s linear infinite}
+.letter-stamp{animation:stampGlow 4s ease-in-out infinite}
+@keyframes letterOrbit{from{rotate:0deg}to{rotate:360deg}}
+@keyframes letterPetTurn{0%,100%{rotate:-2deg}50%{rotate:2deg}}
+@keyframes letterHeartSpin{from{rotate:0deg}to{rotate:360deg}}
+@keyframes stampGlow{0%,100%{box-shadow:0 0 0 #e6a4ca00}50%{box-shadow:0 0 17px #e6a4ca55}}
+#noteLayer{overflow-y:auto;align-items:flex-start;padding:22px 14px;overscroll-behavior:contain}
+.letter{position:relative;width:min(610px,100%);margin:auto;padding:30px clamp(18px,5vw,48px) 25px;background:linear-gradient(160deg,#fff9fd,#f8edf7 58%,#fff7fb);color:#5a3d5d;border:1px solid #e8cddd;box-shadow:0 25px 90px #0008,0 0 0 5px #f9eafa12;max-height:none;overflow:hidden}
+.letter:before{content:"";position:absolute;inset:8px;border:1px solid #e4c9dc;pointer-events:none}
+.letter-top{text-align:center;position:relative;z-index:1}
+.letter-stamp{display:flex;align-items:center;justify-content:center;width:35px;height:35px;border:1px solid #d7a8c6;border-radius:50%;color:#b16c9a;font-size:20px;margin:0 auto 12px}
+.letter .eyebrow{color:#a96c96;font-size:8px;letter-spacing:.23em}
+.letter-date{font:8px Arial,sans-serif;letter-spacing:.2em;color:#b79ab7;margin-top:8px}
+.letter-animals{height:130px;display:flex;justify-content:center;align-items:flex-end;gap:13px;position:relative;margin:8px auto 0;max-width:330px}
+.letter-pet{height:118px;width:auto;max-width:40%;filter:drop-shadow(0 4px 3px #7c4c7616);animation:letterPetFloat 3.6s ease-in-out infinite}
+.bunny-pet{height:126px;animation-delay:-1.8s}
+.letter-heart{font-size:28px;color:#d88db8;align-self:center;margin:0 3px 10px;animation:letterHeartBeat 2.1s ease-in-out infinite}
+.letter-rule{display:flex;align-items:center;justify-content:center;gap:18px;color:#c28eb2;font-size:11px;margin:10px 0 17px}
+.letter h2{font-size:clamp(23px,4vw,30px);font-weight:normal;line-height:1.25;text-align:center;color:#7b4d76;margin:0 auto 20px;max-width:460px}
+.letter-body{font:13px/2.05 Georgia,"Times New Roman",serif;color:#654e68;white-space:normal}
+.letter-body p{margin:0 0 13px}
+.letter-body p:first-child:first-letter{font-size:24px;color:#b06d9c}
+.letter-bottom{display:grid;grid-template-columns:1fr 1.3fr 1fr;align-items:end;gap:8px;border-top:1px solid #e7d1e2;margin-top:23px;padding-top:15px}
+.letter-flower{font-size:14px;color:#c38ab0;white-space:nowrap}
+.letter-sign{text-align:center;font:11px/1.8 Georgia,serif;color:#856384}
+.letter-sign em{font-size:19px;color:#a45f8e}
+.letter-pagination{text-align:right;font:9px Arial,sans-serif;letter-spacing:.15em;color:#ad8bab;white-space:nowrap}
+.note-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:20px;position:relative;z-index:1}
+.note-actions button{font-size:8px;padding:11px 13px;min-height:38px}
+.note-actions .quiet{background:#fff9fd;color:#95648c;border-color:#d9bdd5;box-shadow:none}
+@keyframes letterPetFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes letterHeartBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
+@media(max-width:500px){
+ #noteLayer{padding:10px 8px}
+ .letter{padding:23px 17px 19px}
+ .letter:before{inset:5px}
+ .letter-animals{height:110px;gap:9px}
+ .letter-pet{height:100px}.bunny-pet{height:108px}
+ .letter h2{margin-bottom:15px}
+ .letter-body{font-size:12px;line-height:1.95}
+ .letter-bottom{grid-template-columns:1fr 1.4fr;row-gap:9px}
+ .letter-pagination{grid-column:1/-1;text-align:center}
+ .letter-flower{font-size:12px}
+ .note-actions button{flex:1 1 42%;letter-spacing:.07em}
 }
 
-body {
-    min-height: 100vh;
-    background: #07020d;
-    color: white;
-    font-family: Georgia, serif;
-    overflow-x: hidden;
-}
-
-#stars {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-main {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 25px 18px;
-}
-
-.label {
-    color: #ff9bd3;
-    font: 11px Arial, sans-serif;
-    letter-spacing: 4px;
-    margin-bottom: 20px;
-}
-
-h1 {
-    color: #ffd5ed;
-    font-size: clamp(35px, 7vw, 60px);
-    text-shadow: 0 0 25px #ff168d;
-    margin-bottom: 15px;
-}
-
-.subtitle {
-    color: #e8c8dc;
-    font: 14px/1.8 Arial, sans-serif;
-}
-
-.galaxy {
-    width: min(85vw, 350px);
-    aspect-ratio: 1;
-    position: relative;
-    display: grid;
-    place-items: center;
-    margin: 25px 0;
-}
-
-.orbit {
-    position: absolute;
-    width: 100%;
-    height: 38%;
-    border: 1px solid #ff5ca766;
-    border-radius: 50%;
-    box-shadow: 0 0 18px #ff168d55;
-    animation: rotate 7s linear infinite;
-}
-
-.orbit:nth-child(2) {
-    animation-duration: 10s;
-    transform: rotate(60deg);
-}
-
-.orbit:nth-child(3) {
-    animation-duration: 13s;
-    transform: rotate(-60deg);
-}
-
-.heart {
-    font-size: clamp(85px, 20vw, 125px);
-    color: #ff4ba7;
-    text-shadow: 0 0 20px #ff168d, 0 0 60px #ff168d;
-    animation: beat 1.5s ease-in-out infinite;
-    cursor: pointer;
-    user-select: none;
-}
-
-@keyframes rotate {
-    from { rotate: 0deg; }
-    to { rotate: 360deg; }
-}
-
-@keyframes beat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.13); }
-}
-
-button {
-    padding: 14px 23px;
-    border: 1px solid #ff9bd3;
-    border-radius: 30px;
-    background: linear-gradient(120deg, #ff278e, #a52bce);
-    color: white;
-    font-size: 13px;
-    cursor: pointer;
-    box-shadow: 0 0 20px #ff168d44;
-    transition: .3s;
-}
-
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px #ff168d88;
-}
-
-.card {
-    display: none;
-    width: min(100%, 430px);
-    padding: 28px 22px;
-    margin-top: 25px;
-    border: 1px solid #ff86c855;
-    border-radius: 20px;
-    background: #210b2be8;
-    box-shadow: 0 0 35px #ff168d22;
-    animation: appear .7s ease;
-}
-
-.card.show {
-    display: block;
-}
-
-.card h2 {
-    color: #ff9bd3;
-    font-size: 27px;
-    margin-bottom: 18px;
-}
-
-.card p {
-    color: #f3dce9;
-    font: 14px/2 Arial, sans-serif;
-}
-
-.card button {
-    margin-top: 20px;
-}
-
-.footer {
-    margin-top: 25px;
-    color: #a58cae;
-    font: 11px Arial, sans-serif;
-    letter-spacing: 2px;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.floating {
-    position: fixed;
-    bottom: -40px;
-    pointer-events: none;
-    animation: rise 4s linear forwards;
-}
-
-@keyframes rise {
-    to {
-        transform: translateY(-110vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    main {
-        padding: 35px 18px;
-    }
-
-    .label {
-        font-size: 9px;
-        letter-spacing: 3px;
-    }
-
-    .subtitle {
-        font-size: 12px;
-    }
-
-    .card {
-        padding: 22px 17px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-    }
-}
+#toast{position:fixed;z-index:5;left:50%;bottom:55px;transform:translateX(-50%);font:9px Arial,sans-serif;letter-spacing:.1em;text-align:center;color:#ffd8ea;opacity:0;pointer-events:none;transition:opacity .25s;width:90%}
+#toast.show{opacity:1}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes twinkle{0%,100%{opacity:.45;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
+@keyframes animalFloat{0%,100%{translate:0 0;rotate:-1deg}50%{translate:0 -10px;rotate:1deg}}
+@media(max-width:650px){header{padding:14px 13px}.brand{font-size:8px;letter-spacing:.15em}.live{font-size:8px}.intro{width:min(330px,100%);padding:24px 18px 22px}.moon-art{height:88px}.moon{width:55px;height:55px}.moon:after{width:68px;top:18px}.hud-title{top:72px;font-size:7px;letter-spacing:.14em}.actions{top:42px;right:10px}.actions button{padding:8px 9px}.hud-bottom{font-size:7px;bottom:calc(9px + env(safe-area-inset-bottom))}.note{padding:23px 16px 19px}.note p{font-size:11px}}
+@media(max-height:650px){.intro{padding-top:16px;padding-bottom:16px}.moon-art{height:68px}.moon{width:48px;height:48px}.moon:after{width:57px;height:18px;top:15px}.intro h1{font-size:30px;margin:9px 0}.intro p{margin-bottom:12px}.small-note{margin-top:10px}.animal.cat,.animal.rabbit{bottom:8%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
 </head>
-
 <body>
+<canvas id="universe" aria-label="Galaksi 3D dengan hewan-hewan lucu"></canvas>
+<div class="ambient"></div>
+<header id="header"><div class="brand">VELVET <b>GALAXY</b></div><div class="live">✦ MADE FOR GABY</div></header>
 
-<canvas id="stars"></canvas>
+<section id="start">
+  <div class="intro">
+    <div class="eyebrow">a little universe, just for you</div>
+    <h1>Una Galaxia<br><em>de Amor</em> para Gaby</h1>
+    <div class="moon-art"><span class="spark">✦</span><div class="moon"></div><span class="spark">♡</span><span class="spark">✧</span></div>
+    <p>Di antara begitu banyak bintang, ada satu cahaya yang terasa istimewa. Dunia kecil ini dibuat khusus untukmu.</p>
+    <button id="enter">Enter our universe&nbsp; ✧</button>
+    <div class="small-note">a secret made with love</div>
+  </div>
+</section>
 
-<main>
-    <div class="label">A SECRET UNIVERSE</div>
+<div id="hud">
+  <div class="hud-title">✦ A UNIVERSE MADE ESPECIALLY FOR GABY ✦</div>
+  <div class="actions"><button id="sound">♫ SOUND OFF</button><button id="home">↺ INTRO</button></div>
+  <div class="hud-bottom">DRAG TO EXPLORE THE GALAXY · TAP THE HEART FOR A MESSAGE ♡</div>
+</div>
 
-    <h1>Velvet Galaxy</h1>
+<section id="noteLayer" role="dialog" aria-modal="true" aria-labelledby="noteTitle">
+ <div class="letter">
+  <div class="letter-top">
+   <span class="letter-stamp">♡</span>
+   <div class="eyebrow">a letter written just for you</div>
+   <div class="letter-date">FOR GABY · WITH LOVE</div>
+  </div>
+  <div class="letter-animals" aria-label="Ilustrasi hewan lucu">
+   <svg class="letter-pet cat-pet" viewBox="0 0 160 180" role="img" aria-label="Kucing lucu">
+    <ellipse cx="80" cy="165" rx="39" ry="6" fill="#000" opacity=".12"/>
+    <path d="M44 108 Q20 124 35 145 Q43 153 53 140" fill="none" stroke="#c9b7d6" stroke-width="11" stroke-linecap="round"/>
+    <path d="M47 53 L39 14 Q37 5 48 13 L72 36 Q86 31 100 37 L125 14 Q134 7 132 21 L127 57 Q143 75 136 105 Q131 132 104 139 L57 137 Q32 129 29 100 Q26 72 47 53Z" fill="#f4eaf8" stroke="#e8d8ef" stroke-width="2"/>
+    <path d="M45 29 L62 45 L49 51Z M124 29 L109 47 L122 51Z" fill="#eaa5c8"/>
+    <path d="M44 79 Q55 65 68 79 Q57 91 44 79Z M94 79 Q107 65 119 79 Q106 91 94 79Z" fill="#5f416d"/>
+    <ellipse cx="57" cy="78" rx="3" ry="5" fill="#fff"/><ellipse cx="106" cy="78" rx="3" ry="5" fill="#fff"/>
+    <path d="M75 91 Q82 86 88 91 Q82 100 75 91Z" fill="#dc85b0"/>
+    <path d="M81 98 Q75 107 68 101 M82 98 Q88 107 95 101" fill="none" stroke="#805b82" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="47" cy="94" rx="9" ry="5" fill="#f4a4c8" opacity=".55"/><ellipse cx="116" cy="94" rx="9" ry="5" fill="#f4a4c8" opacity=".55"/>
+    <path d="M50 139 Q45 151 50 159 L69 159 L73 141 M91 141 L96 159 L116 159 Q121 149 113 138" fill="#eee3f8" stroke="#e8d8ef" stroke-width="2"/>
+    <path d="M56 158 L64 158 M101 158 L110 158" stroke="#c3a4d3" stroke-width="3" stroke-linecap="round"/>
+    <path d="M132 62 Q150 48 143 36" fill="none" stroke="#e7c7e4" stroke-width="4" stroke-linecap="round"/>
+   </svg>
+   <svg class="letter-pet bunny-pet" viewBox="0 0 160 190" role="img" aria-label="Kelinci lucu">
+    <ellipse cx="80" cy="174" rx="42" ry="6" fill="#000" opacity=".12"/>
+    <path d="M55 65 Q30 20 48 7 Q62 2 72 60Z M94 60 Q95 7 113 9 Q130 14 108 69Z" fill="#fff4fa" stroke="#e9d8ed" stroke-width="2"/>
+    <path d="M52 48 Q49 17 54 17 Q63 20 65 49Z M103 49 Q109 20 115 20 Q119 25 108 51Z" fill="#efa2c9"/>
+    <ellipse cx="80" cy="88" rx="49" ry="43" fill="#fff4fa" stroke="#e9d8ed" stroke-width="2"/>
+    <ellipse cx="63" cy="83" rx="5" ry="7" fill="#5c3a67"/><ellipse cx="97" cy="83" rx="5" ry="7" fill="#5c3a67"/>
+    <circle cx="65" cy="81" r="2" fill="#fff"/><circle cx="99" cy="81" r="2" fill="#fff"/>
+    <path d="M75 95 Q80 90 85 95 Q80 102 75 95Z" fill="#e87eaf"/>
+    <path d="M80 101 Q73 109 68 102 M80 101 Q87 109 92 102" fill="none" stroke="#926a91" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="52" cy="99" rx="9" ry="5" fill="#f2a0c9" opacity=".65"/><ellipse cx="108" cy="99" rx="9" ry="5" fill="#f2a0c9" opacity=".65"/>
+    <ellipse cx="80" cy="139" rx="32" ry="31" fill="#fff4fa" stroke="#e9d8ed" stroke-width="2"/>
+    <ellipse cx="80" cy="134" rx="18" ry="19" fill="#fffafd"/>
+    <path d="M52 146 Q39 137 35 153 Q36 164 52 159 M108 146 Q121 137 125 153 Q124 164 108 159" fill="#fff4fa" stroke="#e9d8ed" stroke-width="2"/>
+    <ellipse cx="61" cy="164" rx="18" ry="9" fill="#f4e5f3"/><ellipse cx="99" cy="164" rx="18" ry="9" fill="#f4e5f3"/>
+    <path d="M66 116 Q80 124 94 116" fill="none" stroke="#f4bfdc" stroke-width="3" stroke-linecap="round"/>
+   </svg>
+   <span class="letter-heart">♡</span>
+  </div>
+  <div class="letter-rule"><span>✦</span><span>✧</span><span>✦</span></div>
+  <h2 id="noteTitle">Untuk Gaby, dengan sayang</h2>
+  <div class="letter-body" id="noteText"></div>
+  <div class="letter-bottom">
+   <div class="letter-flower">✿ &nbsp; ♡ &nbsp; ✿</div>
+   <div class="letter-sign">Dengan penuh kasih,<br><em>Rahasia</em> ♡</div>
+   <div class="letter-pagination" id="noteCount">01 / 08</div>
+  </div>
+  <div class="note-actions">
+   <button class="quiet" id="previous">← Sebelumnya</button>
+   <button id="next">Surat berikutnya →</button>
+   <button class="quiet" id="close">Kembali ke galaksi</button>
+  </div>
+ </div>
+</section>
+<div id="toast" aria-live="polite"></div>
 
-    <p class="subtitle">
-        Di antara miliaran bintang,<br>
-        ada seseorang yang begitu istimewa.
-    </p>
-
-    <div class="galaxy">
-        <div class="orbit"></div>
-        <div class="orbit"></div>
-        <div class="orbit"></div>
-        <div class="heart" onclick="openMessage()">♥</div>
-    </div>
-
-    <button onclick="openMessage()">
-        Open Your Little Universe ♡
-    </button>
-
-    <section class="card" id="message">
-        <h2>For You, Gaby ♡</h2>
-
-        <p>
-            Hai, Gaby. ❤️
-            <br><br>
-            Ada hal sederhana yang ingin kusampaikan
-            lewat dunia kecil ini.
-            <br><br>
-            Dari sekian banyak bintang di langit,
-            setiap orang punya cahaya istimewanya sendiri.
-            Dan menurutku, kamu punya cahaya yang indah.
-            <br><br>
-            Semoga kamu selalu menemukan alasan
-            untuk tersenyum, tetap kuat saat lelah,
-            dan dikelilingi banyak hal baik.
-            <br><br>
-            Jangan lupa jaga diri dan bahagia, ya. 💗
-        </p>
-
-        <button onclick="sendLove()">
-            A Little More Love 💗
-        </button>
-
-        <p style="margin-top:20px;color:#ff9bd3">
-            — From Someone ♡
-        </p>
-    </section>
-
-    <div class="footer">
-        MADE WITH LOVE · JUST FOR YOU
-    </div>
-</main>
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
-
-let stars = [];
-
-function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
-
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    stars = [];
-
-    for (let i = 0; i < 150; i++) {
-        stars.push({
-            x: Math.random() * innerWidth,
-            y: Math.random() * innerHeight,
-            size: Math.random() * 1.5 + .3,
-            phase: Math.random() * 6.28
-        });
-    }
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+const canvas=$('universe'), start=$('start'), hud=$('hud'), header=$('header'), layer=$('noteLayer');
+const isMobile=()=>innerWidth<650, reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const notes=[
+ {title:'Untuk Gaby, dengan tulus',paragraphs:[
+ 'Hai, Gaby. ♡',
+ 'Aku membuat halaman kecil ini sebagai cara sederhana untuk menyampaikan doa-doa baik untukmu. Di antara begitu banyak bintang di langit, semoga kamu selalu menemukan cahaya yang membuat langkahmu terasa lebih tenang.',
+ 'Semoga hari ini memberimu alasan untuk tersenyum, hal-hal kecil yang menyenangkan, dan waktu untuk menikmati dirimu sendiri. Tidak perlu menjadi sempurna untuk menjadi seseorang yang berharga.'
+ ]},
+ {title:'Senyummu adalah hal yang indah',paragraphs:[
+ 'Gaby, semoga kamu punya banyak alasan untuk tersenyum, bahkan pada hari-hari yang terasa biasa saja. Semoga ada cerita lucu, lagu kesukaan, makanan yang enak, atau pesan hangat yang membuat harimu sedikit lebih baik.',
+ 'Kamu tidak perlu selalu terlihat ceria. Kalau sedang lelah, istirahatlah. Kalau sedang sedih, berikan dirimu waktu. Perasaanmu tetap penting, apa pun yang sedang kamu rasakan.',
+ 'Semoga kebaikan yang kamu berikan kepada orang lain juga kembali kepadamu, dengan cara-cara yang tidak terduga dan menyenangkan.'
+ ]},
+ {title:'Jangan lupa menjaga diri',paragraphs:[
+ 'Satu pesan kecil untukmu: jangan lupa makan tepat waktu, minum air yang cukup, dan beristirahat ketika tubuhmu membutuhkannya, ya.',
+ 'Kesibukan memang kadang membuat kita lupa memperhatikan diri sendiri. Namun, kesehatan dan ketenanganmu juga layak mendapat perhatian. Kamu boleh berhenti sebentar tanpa merasa bersalah.',
+ 'Semoga kamu selalu diberi kesehatan, hati yang tenang, dan orang-orang baik yang mengingatkanmu untuk menjaga diri.'
+ ]},
+ {title:'Doa baik untuk setiap langkahmu',paragraphs:[
+ 'Semoga urusanmu dimudahkan, belajarmu dilancarkan, dan setiap usaha baikmu membawa hasil yang membanggakan. Kalau ada rencana yang belum berjalan sesuai harapan, semoga kamu tetap diberi kesabaran untuk mencoba lagi.',
+ 'Semoga kamu bertemu banyak kesempatan yang baik, belajar hal-hal baru, dan semakin percaya pada kemampuan dirimu sendiri. Kamu tidak harus berlari mengikuti langkah orang lain; berjalan perlahan juga tetap berarti.',
+ 'Aku berharap hari-hari mendatang membawakan lebih banyak ketenangan, kebahagiaan, dan hal-hal yang patut kamu syukuri.'
+ ]},
+ {title:'Untuk hari yang melelahkan',paragraphs:[
+ 'Kalau hari ini terasa berat, semoga kamu bisa memberi dirimu sedikit ruang untuk bernapas. Letakkan dulu hal-hal yang bisa menunggu, tarik napas perlahan, lalu istirahatlah sejenak.',
+ 'Tidak semua hal harus selesai dalam satu hari. Tidak semua pertanyaan harus punya jawaban sekarang. Kadang, hal terbaik yang bisa kita lakukan adalah menjalani satu langkah kecil dengan sabar.',
+ 'Semoga malam membawa ketenangan, dan esok pagi datang dengan semangat baru. Pelan-pelan saja, Gaby. Kamu juga pantas mendapatkan waktu untuk beristirahat.'
+ ]},
+ {title:'Hal-hal kecil yang ingin kuharapkan',paragraphs:[
+ 'Semoga kamu menikmati langit sore yang cantik, udara yang sejuk, obrolan yang menyenangkan, dan momen sederhana yang membuatmu merasa bersyukur.',
+ 'Semoga ada orang yang mendengarkan ceritamu dengan sungguh-sungguh, menghargai pendapatmu, dan memperlakukanmu dengan sopan. Semoga kamu selalu punya ruang untuk menjadi diri sendiri tanpa merasa harus berpura-pura.',
+ 'Kebahagiaan tidak selalu harus besar atau mahal. Semoga kamu bisa menemukan keindahannya dalam hal-hal sederhana yang hadir setiap hari.'
+ ]},
+ {title:'Sebuah surat kecil dari galaksi',paragraphs:[
+ 'Coba bayangkan bintang-bintang kecil di galaksi ini sedang membawa pesan-pesan baik untukmu. Setiap cahaya mengingatkan bahwa dunia masih menyimpan banyak hal indah untuk ditemukan.',
+ 'Kucing dan kelinci kecil di surat ini ikut menemani, supaya halaman ini terasa hangat dan sedikit menggemaskan. Semoga ketika membacanya, kamu bisa tersenyum walau hanya sebentar.',
+ 'Terima kasih sudah meluangkan waktu untuk membaca surat ini. Semoga ada satu kalimat di dalamnya yang bisa menemani harimu dengan cara yang baik.'
+ ]},
+ {title:'Semoga bahagia selalu, Gaby',paragraphs:[
+ 'Pada akhirnya, aku hanya ingin menyampaikan harapan sederhana: semoga kamu bahagia, sehat, dan dikelilingi orang-orang yang tulus. Semoga kamu selalu dihargai, didengarkan, dan diperlakukan dengan baik.',
+ 'Kalau suatu hari kamu membuka halaman ini lagi, semoga kamu mengingat bahwa masih ada banyak hal baik yang bisa kamu temui. Tetaplah menjadi dirimu sendiri, tetaplah berbuat baik, dan jangan lupa menyayangi dirimu juga.',
+ 'Terima kasih sudah menjadi Gaby yang apa adanya. Semoga langkahmu selalu ditemani doa baik, dan semoga hari-hari yang menantimu terasa lebih indah.',
+ 'Dengan doa baik dan penuh hormat,\\nRahasia ♡'
+ ]}
+];
+let renderer,scene,camera,galaxy,heart,orbitTexts=[],clock=0,active=false,dragging=false,lastX=0,lastY=0,mouseX=0,mouseY=0,index=0,audioCtx=null,osc=null,gain=null,sound=false;
+let toastTimer=0;
+function toast(s){$('toast').textContent=s;$('toast').style.opacity=1;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').style.opacity=0,2300)}
+function glowMap(){
+ const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d'),g=x.createRadialGradient(32,32,0,32,32,32);
+ g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.18,'rgba(255,215,241,.98)');g.addColorStop(.42,'rgba(255,76,173,.48)');g.addColorStop(1,'rgba(255,30,130,0)');
+ x.fillStyle=g;x.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);
 }
-
-function animateStars() {
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-
-    stars.forEach(star => {
-        star.phase += .015;
-
-        ctx.globalAlpha = .3 + Math.abs(Math.sin(star.phase)) * .7;
-        ctx.fillStyle = "#ffd8f0";
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = "#ff4ba7";
-
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-    });
-
-    ctx.globalAlpha = 1;
-    ctx.shadowBlur = 0;
-
-    requestAnimationFrame(animateStars);
+let glow;
+function cloud(p,c,size,opacity=1){
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(p,3));if(c)geo.setAttribute('color',new THREE.Float32BufferAttribute(c,3));
+ return new THREE.Points(geo,new THREE.PointsMaterial({size,map:glow,vertexColors:!!c,transparent:true,opacity,depthWrite:false,blending:THREE.AdditiveBlending}));
 }
-
-function openMessage() {
-    const card = document.getElementById("message");
-
-    card.classList.add("show");
-
-    card.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-    });
-
-    sendLove();
+function buildStars(){
+ const n=isMobile()?650:1450,p=new Float32Array(n*3),c=new Float32Array(n*3);
+ for(let i=0;i<n;i++){p[i*3]=(Math.random()-.5)*105;p[i*3+1]=(Math.random()-.5)*65;p[i*3+2]=(Math.random()-.5)*85;let q=.65+Math.random()*.35;c[i*3]=1;c[i*3+1]=q*.8;c[i*3+2]=q}
+ scene.add(cloud(p,c,.22,.85));
 }
-
-function sendLove() {
-    for (let i = 0; i < 20; i++) {
-        setTimeout(() => {
-            const heart = document.createElement("div");
-
-            heart.className = "floating";
-            heart.textContent = ["♥", "♡", "💗", "✨"][
-                Math.floor(Math.random() * 4)
-            ];
-
-            heart.style.left = Math.random() * 95 + "vw";
-            heart.style.color = "#ff70bd";
-            heart.style.fontSize = 15 + Math.random() * 20 + "px";
-            heart.style.animationDuration = 3 + Math.random() * 3 + "s";
-
-            document.body.appendChild(heart);
-
-            setTimeout(() => heart.remove(), 6500);
-        }, i * 100);
-    }
+function buildGalaxy(){
+ galaxy=new THREE.Group();scene.add(galaxy);
+ const n=isMobile()?4200:9500,p=new Float32Array(n*3),c=new Float32Array(n*3);
+ for(let i=0;i<n;i++){const r=Math.pow(Math.random(),.72)*15.5,a=Math.floor(Math.random()*4)*Math.PI/2+r*.5+(Math.random()-.5)*(.16+r*.012);p[i*3]=Math.cos(a)*r;p[i*3+1]=(Math.random()-.5)*(.12+r*.035);p[i*3+2]=Math.sin(a)*r;const q=Math.random();c[i*3]=1;c[i*3+1]=.1+q*.48;c[i*3+2]=.4+q*.55}
+ galaxy.add(cloud(p,c,isMobile()?.17:.2,.96));
+ const rings=new THREE.Group();galaxy.add(rings);
+ for(let i=0;i<6;i++){const curve=new THREE.EllipseCurve(0,0,5+i*1.9,1.2+i*.34,0,Math.PI*2,false,0);const geo=new THREE.BufferGeometry().setFromPoints(curve.getPoints(220).map(v=>new THREE.Vector3(v.x,0,v.y)));const line=new THREE.LineLoop(geo,new THREE.LineBasicMaterial({color:i%2?0xff72c1:0xffc1e4,transparent:true,opacity:.13+i*.013}));line.rotation.x=.16;rings.add(line)}
+ const core=new THREE.Sprite(new THREE.SpriteMaterial({map:glow,color:0xff3d9f,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));core.scale.set(9,9,1);galaxy.add(core);
 }
-
-window.addEventListener("resize", resize);
-
-resize();
-animateStars();
+function buildOrbitDust(){
+ const dust=new THREE.Group();scene.add(dust);
+ const n=isMobile()?900:1700,p=new Float32Array(n*3),c=new Float32Array(n*3);
+ for(let i=0;i<n;i++){
+  const a=Math.random()*Math.PI*2,r=8+Math.random()*18;
+  p[i*3]=Math.cos(a)*r;
+  p[i*3+1]=(Math.random()-.5)*1.5;
+  p[i*3+2]=Math.sin(a)*r;
+  c[i*3]=1;c[i*3+1]=.42+Math.random()*.42;c[i*3+2]=.72+Math.random()*.25;
+ }
+ dust.add(cloud(p,c,isMobile()?.11:.14,.62));
+ dust.rotation.x=.16;
+ dust.userData.orbitDust=true;
+ scene.userData.orbitDust=dust;
+}
+function buildHeart(){
+ heart=new THREE.Group();scene.add(heart);
+ const n=isMobile()?1600:3200,p=new Float32Array(n*3),c=new Float32Array(n*3);
+ for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,r=Math.sqrt(Math.random()),x=16*Math.pow(Math.sin(a),3),y=13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a);p[i*3]=x*r*.19;p[i*3+1]=y*r*.19;p[i*3+2]=(Math.random()-.5)*.6;const q=Math.random();c[i*3]=1;c[i*3+1]=.15+q*.5;c[i*3+2]=.5+q*.45}
+ heart.add(cloud(p,c,isMobile()?.14:.17,.98));
+ const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:glow,color:0xff3e9f,transparent:true,opacity:.65,blending:THREE.AdditiveBlending,depthWrite:false}));halo.scale.set(8,8,1);halo.position.z=-.7;heart.add(halo);heart.position.set(0,7.2,0);
+}
+function textTexture(text,color){const c=document.createElement('canvas');c.width=1024;c.height=128;const x=c.getContext('2d');x.font='bold 38px Arial';x.textAlign='center';x.textBaseline='middle';x.shadowColor=color;x.shadowBlur=14;x.fillStyle=color;x.fillText(text,512,64);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function orbit(text,r,a,y,color,speed){
+ const g=new THREE.Group();
+ const material=new THREE.SpriteMaterial({map:textTexture(text,color),transparent:true,depthWrite:false,depthTest:false});
+ const sprite=new THREE.Sprite(material);
+ const width=isMobile()?Math.min(8.5,Math.max(6.2,text.length*.19)):Math.min(11.5,Math.max(8.5,text.length*.22));
+ sprite.scale.set(width,isMobile()?.72:.94,1);
+ g.add(sprite);
+ g.userData={r,a,y,speed};
+ // Teks menjadi anak dari grup galaksi, sehingga ikut berputar dan miring bersama cincin.
+ galaxy.add(g);
+ orbitTexts.push(g);
+}
+function buildText(){
+ const phrases=[
+  ['SEMOGA KAMU BAHAGIA ♡',16.2,.10,-.22,'#ffd7eb',.11],
+  ['JAGA KESEHATAN, YA GABY ✧',18.2,.52,.18,'#f8c4e0',-.09],
+  ['KAMU PANTAS MENDAPATKAN HAL BAIK',20.5,.93,-.12,'#ffe0ef',.08],
+  ['SEMOGA HARIMU DIPENUHI SENYUMAN ♡',17.2,1.34,.25,'#ffadd4',-.10],
+  ['TAKE YOUR TIME, BE GENTLE WITH YOURSELF',22.2,1.75,-.20,'#f8c4e0',.07],
+  ['SEMOGA LANGKAHMU SELALU DIMUDAHKAN ✦',19.2,2.16,.12,'#ffe0ef',-.08],
+  ['DI ANTARA BINTANG, KAMU ISTIMEWA ♡',16.8,2.57,-.26,'#ffadd4',.09],
+  ['JANGAN LUPA BERISTIRAHAT, YA',21.5,2.98,.20,'#f8c4e0',-.07],
+  ['YOU DESERVE KINDNESS AND PEACE ✧',18.5,3.39,-.14,'#ffe0ef',.10],
+  ['SEMOGA SELALU ADA ALASAN UNTUK TERSENYUM',22.8,3.80,.24,'#ffadd4',-.08],
+  ['DOA BAIK SELALU MENYERTAI ♡',17.4,4.21,-.22,'#f8c4e0',.08],
+  ['A LITTLE UNIVERSE, MADE FOR GABY ✦',20.8,4.62,.12,'#ffe0ef',-.09],
+  ['SEMOGA HATIMU SELALU TENANG',16.7,5.03,-.16,'#ffadd4',.07],
+  ['TETAP JADI DIRIMU YANG INDAH ♡',21.8,5.44,.23,'#f8c4e0',-.08],
+  ['SEMOGA ESOK LEBIH CERAH ✧',18.8,5.85,-.12,'#ffe0ef',.09],
+  ['WITH GENTLE WISHES · RAHASIA ♡',23.2,6.26,.16,'#ffadd4',-.07]
+ ];
+ phrases.forEach(v=>orbit(...v));
+}
+function init(){
+ if(!window.THREE){toast('Koneksi internet diperlukan untuk memuat animasi 3D.');return}
+ scene=new THREE.Scene();scene.background=new THREE.Color('#090510');scene.fog=new THREE.FogExp2('#090510',.007);
+ camera=new THREE.PerspectiveCamera(isMobile()?55:48,innerWidth/innerHeight,.1,180);camera.position.set(0,15,40);camera.lookAt(0,1,0);
+ renderer=new THREE.WebGLRenderer({canvas,antialias:!isMobile(),alpha:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile()?1.2:1.5));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;
+ scene.add(new THREE.AmbientLight(0xffffff,1.15));const light=new THREE.PointLight(0xff238e,7,60);light.position.set(0,5,0);scene.add(light);
+ glow=glowMap();buildStars();buildGalaxy();buildOrbitDust();buildHeart();buildText();animate();
+}
+function animate(){
+ requestAnimationFrame(animate);clock+=.008;if(!renderer)return;
+ if(active){
+  if(!reduced){galaxy.rotation.y+=.00065;if(scene.userData.orbitDust)scene.userData.orbitDust.rotation.y-=.0007;}
+  heart.position.y=7.2+Math.sin(clock*1.4)*.27;heart.rotation.y=Math.sin(clock*.4)*.17;heart.rotation.z=Math.sin(clock*.6)*.03;heart.scale.setScalar(1+Math.sin(clock*2)*.025);
+  orbitTexts.forEach((g,i)=>{
+   const d=g.userData;
+   d.a+=d.speed*.004;
+   g.position.set(Math.cos(d.a)*d.r,d.y+Math.sin(clock+i*.7)*.035,Math.sin(d.a)*d.r);
+  });
+  camera.position.x+=(mouseX*1.1-camera.position.x)*.004;camera.position.y+=(16+mouseY-camera.position.y)*.004;camera.lookAt(0,1,0)
+ }else if(!reduced){galaxy.rotation.y+=.00025;if(scene.userData.orbitDust)scene.userData.orbitDust.rotation.y-=.00018;heart.rotation.y=Math.sin(clock*.3)*.07}
+ renderer.render(scene,camera)
+}
+function showNote(i){index=(i+notes.length)%notes.length;const n=notes[index];$('noteTitle').textContent=n.title;$('noteText').replaceChildren(...n.paragraphs.map((text)=>{const p=document.createElement('p');p.textContent=text;return p}));$('noteCount').textContent=String(index+1).padStart(2,'0')+' / '+String(notes.length).padStart(2,'0');layer.classList.add('open')}
+$('enter').addEventListener('click',()=>{active=true;start.classList.add('hide');hud.classList.add('on');header.classList.add('on');toast('Geser untuk menjelajahi galaksi · ketuk hati untuk pesan ♡')});
+$('home').addEventListener('click',()=>{active=false;start.classList.remove('hide');hud.classList.remove('on');header.classList.remove('on');layer.classList.remove('open');camera.position.set(0,15,40);camera.lookAt(0,1,0)});
+$('close').addEventListener('click',()=>layer.classList.remove('open'));$('next').addEventListener('click',()=>showNote(index+1));$('previous').addEventListener('click',()=>showNote(index-1));
+layer.addEventListener('click',e=>{if(e.target===layer)layer.classList.remove('open')});
+canvas.addEventListener('click',()=>{if(active&&!layer.classList.contains('open'))showNote(index)});
+canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});window.addEventListener('pointerup',()=>dragging=false);window.addEventListener('pointercancel',()=>dragging=false);
+window.addEventListener('pointermove',e=>{mouseX=(e.clientX/innerWidth-.5)*2;mouseY=(e.clientY/innerHeight-.5)*2;if(dragging&&active){const dx=e.clientX-lastX,dy=e.clientY-lastY;galaxy.rotation.y+=dx*.003;galaxy.rotation.x=Math.max(-.22,Math.min(.22,galaxy.rotation.x+dy*.0007));lastX=e.clientX;lastY=e.clientY}});
+window.addEventListener('resize',()=>{if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.fov=isMobile()?55:48;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,isMobile()?1.2:1.5));renderer.setSize(innerWidth,innerHeight)});
+$('sound').addEventListener('click',async()=>{if(!sound){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();await audioCtx.resume();osc=audioCtx.createOscillator();gain=audioCtx.createGain();osc.type='sine';osc.frequency.value=174.61;gain.gain.value=.012;osc.connect(gain);gain.connect(audioCtx.destination);osc.start();sound=true;$('sound').textContent='♫ SOUND ON'}catch(e){toast('Audio tidak tersedia di browser ini')}}else{if(osc){osc.stop();osc.disconnect();osc=null}sound=false;$('sound').textContent='♫ SOUND OFF'}});
+init();
+})();
 </script>
-
 </body>
 </html>
