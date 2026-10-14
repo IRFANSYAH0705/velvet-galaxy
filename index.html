@@ -162,6 +162,63 @@ button:focus-visible{outline:2px solid #fff;outline-offset:4px}
   .orbit-word{font-size:9px!important;max-width:39vw}
 }
 
+
+/* Precision mobile layout for tall phone screens */
+@media (max-width: 650px) {
+  #header {
+    top: calc(12px + env(safe-area-inset-top));
+    left: 16px; right: 16px;
+    padding: 0;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  #header .brand { font-size: 10px; letter-spacing: .15em; }
+  #header .live { font-size: 8px; letter-spacing: .07em; white-space: nowrap; }
+  .hud-title {
+    top: calc(68px + env(safe-area-inset-top));
+    width: 92%;
+    white-space: normal;
+    font-size: 9px;
+    line-height: 1.8;
+    letter-spacing: .12em;
+  }
+  .actions {
+    top: calc(102px + env(safe-area-inset-top));
+    left: 50%; right: auto;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100vw - 24px);
+    gap: 8px;
+  }
+  .actions button {
+    min-height: 42px;
+    padding: 10px 13px;
+    font-size: 9px;
+    letter-spacing: .07em;
+    white-space: nowrap;
+    background: rgba(18, 12, 24, .92);
+    backdrop-filter: blur(8px);
+  }
+  .hud-bottom {
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    width: 88%;
+    font-size: 8px;
+    line-height: 1.8;
+    letter-spacing: .08em;
+  }
+  #noteLayer { padding: 14px 10px; }
+  .letter { max-width: 520px; width: 100%; }
+}
+@media (max-width: 390px) {
+  #header { left: 12px; right: 12px; }
+  #header .brand { font-size: 9px; }
+  #header .live { font-size: 7px; letter-spacing: .04em; }
+  .hud-title { top: calc(66px + env(safe-area-inset-top)); font-size: 8px; }
+  .actions { top: calc(98px + env(safe-area-inset-top)); gap: 6px; }
+  .actions button { padding: 9px 10px; font-size: 8px; }
+  .hud-bottom { font-size: 7px; }
+}
+
 </style>
 </head>
 <body>
@@ -342,13 +399,13 @@ function buildHeart(){
  heart.add(cloud(p,c,isMobile()?.14:.17,.98));
  const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:glow,color:0xff3e9f,transparent:true,opacity:.48,blending:THREE.AdditiveBlending,depthWrite:false}));halo.scale.set(6.8,6.8,1);halo.position.z=-.7;heart.add(halo);heart.position.set(0,7.2,0);
 }
-function textTexture(text,color){const c=document.createElement('canvas');c.width=2048;c.height=256;const x=c.getContext('2d');x.font='600 64px Arial';x.textAlign='center';x.textBaseline='middle';x.shadowColor=color;x.shadowBlur=18;x.fillStyle=color;x.fillText(text,1024,128);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function textTexture(text,color){const c=document.createElement('canvas');c.width=3072;c.height=384;const x=c.getContext('2d');x.font='600 86px Arial';x.textAlign='center';x.textBaseline='middle';x.shadowColor=color;x.shadowBlur=20;x.fillStyle=color;x.fillText(text,1536,192);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
 function orbit(text,r,a,y,color,speed){
  const g=new THREE.Group();
  const material=new THREE.SpriteMaterial({map:textTexture(text,color),transparent:true,depthWrite:false,depthTest:false});
  const sprite=new THREE.Sprite(material);
- const width=isMobile()?Math.min(11.5,Math.max(8.0,text.length*.23)):Math.min(12.5,Math.max(9.0,text.length*.23));
- sprite.scale.set(width,isMobile()?.88:1.02,1);
+ const width=isMobile()?Math.min(17.5,Math.max(12.5,text.length*.34)):Math.min(13.5,Math.max(9.5,text.length*.245));
+ sprite.scale.set(width,isMobile()?1.28:1.02,1);
  g.add(sprite);
  g.userData={r,a,y,speed};
  // Teks menjadi anak dari grup galaksi, sehingga ikut berputar dan miring bersama cincin.
@@ -379,9 +436,9 @@ function buildText(){
 function init(){
  if(!window.THREE){toast('Koneksi internet diperlukan untuk memuat animasi 3D.');return}
  scene=new THREE.Scene();scene.background=new THREE.Color('#090510');scene.fog=new THREE.FogExp2('#090510',.007);
- camera=new THREE.PerspectiveCamera(isMobile()?43:46,innerWidth/innerHeight,.1,180);camera.position.set(0,isMobile()?16:15,isMobile()?34:40);camera.lookAt(0,1.0,0);
- renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance',precision:'highp'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, isMobile()?2.5:2.5));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
- scene.add(new THREE.AmbientLight(0xffffff,1.15));const light=new THREE.PointLight(0xff238e,7,60);light.position.set(0,5,0);scene.add(light);
+ camera=new THREE.PerspectiveCamera(isMobile()?39:46,innerWidth/innerHeight,.1,180);camera.position.set(0,isMobile()?20:15,isMobile()?37:40);camera.lookAt(0,1.0,0);
+ renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance',precision:'highp'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, isMobile()?2:2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
+ scene.add(new THREE.AmbientLight(0xffffff,0.9));const light=new THREE.PointLight(0xff238e,isMobile()?5.2:7,60);light.position.set(0,5,0);scene.add(light);
  glow=glowMap();buildStars();buildGalaxy();buildOrbitDust();buildHeart();buildText();animate();
 }
 function animate(){
@@ -411,7 +468,7 @@ layer.addEventListener('click',e=>{if(e.target===layer)layer.classList.remove('o
 canvas.addEventListener('click',()=>{if(active&&!layer.classList.contains('open'))showNote(index)});
 canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});window.addEventListener('pointerup',()=>dragging=false);window.addEventListener('pointercancel',()=>dragging=false);
 window.addEventListener('pointermove',e=>{mouseX=(e.clientX/innerWidth-.5)*2;mouseY=(e.clientY/innerHeight-.5)*2;if(dragging&&active){const dx=e.clientX-lastX,dy=e.clientY-lastY;galaxy.rotation.y+=dx*.003;galaxy.rotation.x=Math.max(-.22,Math.min(.22,galaxy.rotation.x+dy*.0007));lastX=e.clientX;lastY=e.clientY}});
-window.addEventListener('resize',()=>{if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.fov=isMobile()?48:46;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, isMobile()?2.5:2.5));renderer.setSize(innerWidth,innerHeight)});
+window.addEventListener('resize',()=>{if(!renderer)return;camera.aspect=innerWidth/innerHeight;camera.fov=isMobile()?48:46;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, isMobile()?2:2));renderer.setSize(innerWidth,innerHeight)});
 let musicTimer=null,musicStep=0,musicNodes=[];
 function playSoftNote(freq,start,duration,volume){
  const oscNode=audioCtx.createOscillator(),amp=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();
